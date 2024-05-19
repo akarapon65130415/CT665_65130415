@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exam-deployment
+  labels:
+    group: exam
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exam-app
+      tier: examination 
+
+  template:
+    metadata:
+      labels:
+        app: exam-app
+        tier: examination
+    spec:
+      containers:
+        - name: exam-app
+          image: akarapon/ct665 #:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5
